@@ -4,13 +4,13 @@ import logging
 from logging.handlers import RotatingFileHandler
 from flask import Flask, session, render_template, g, abort
 from dessert.extensions import *
-#from dessert.models import User
+from dessert.models import User
 
 def config_app(app, config):
     app.config.from_pyfile(config)
     db.init_app(app)
     oid.init_app(app)
-    #app.session_interface = FileSessionInterface()
+
     formatter = logging.Formatter(
             '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
         )
@@ -64,10 +64,11 @@ def dispatch_apps(app):
     app.register_blueprint(adminapp, url_prefix='/admin')
     app.register_blueprint(siteapp)
 
+    """
     from dessert.utils.filters import dateformat, avatar, empty, time_passed, markdown
     app.jinja_env.filters['dateformat'] = dateformat
     app.jinja_env.filters['avatar'] = avatar
     app.jinja_env.filters['empty'] = empty
     app.jinja_env.filters['time_passed'] = time_passed
     app.jinja_env.filters['markdown'] = markdown
-
+    """
