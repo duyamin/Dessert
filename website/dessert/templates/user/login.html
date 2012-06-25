@@ -1,37 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}登陆{% endblock %}
 {% block content %}
-<div id="register">
-	<ul class="breadcrumb">
-		<li>登录</li>
-	</ul>
-	<form class="form mt50" action="{{ url_for('userapp.login') }}?next={{ next }}" method="POST">
-		<p class="clearfix">
-			{{ g.form.email.label(class="lf span1 lh30 mr10") }}
-			{{ g.form.email(class="span6") }}
-		</p>
-		<p class="clearfix">
-			{{ g.form.password.label(class="lf span1 lh30 mr10") }}
-			{{ g.form.password(class="span6") }}
-		</p>
-		<p class="actions mt40">
-					<label for="" class="lf span1 mr10"></label>
-					<input type="submit" class="btn btn-primary" value="登陆" />
-		</p>
-	</form>
-	<form action="" method="POST">
-		<p class="clearfix">
-			<label for="" class="lf span1 mr10"></label>
-			<span class="lf">您也可以试用Google帐号登录</span>
-		</p>
-		<p class="clearfix">
-			<label for="" class="lf span1 mr10"></label>
-			<input type="hidden" name="next" value="{{ next }}" />
-			<input type="hidden" name="openid" value="google" />
-			<input type="submit" value="" class="google-login" />
-		</p>
-	</form>
-</div>
 {% endblock %}
 {% block sidebar %}
 <ul class="breadcrumb">
