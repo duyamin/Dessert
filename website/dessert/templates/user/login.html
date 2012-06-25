@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}登陆{% endblock %}
 {% block content %}
+{% if error %}{{ error }}{% endif %}
+<form action="" method="POST">
+	<input type="hidden" name="next" value="{{ next }}" />
+	<input type="submit" value="使用Google账号登陆" class="google-login" />
+</form>
 {% endblock %}
 {% block sidebar %}
-<ul class="breadcrumb">
-	<li>站点介绍</li>
-</ul>
-<p class="lh24 pl10 pr10">
-</p>
 {% endblock %}

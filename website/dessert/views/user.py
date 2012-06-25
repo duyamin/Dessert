@@ -1,5 +1,5 @@
 #-*-coding:utf-*-
-from flask import Blueprint
+from flask import Blueprint, g, redirect, request, render_template
 from flaskext.openid import COMMON_PROVIDERS
 from dessert.extensions import *
 
@@ -8,22 +8,9 @@ userapp = Blueprint('userapp', __name__)
 @userapp.route('/login/', methods=['GET', 'POST'])
 @oid.loginhandler
 def login():
-    if g.user is not None:
-        return redirect(oid.get_next_url())
-    form = LoginForm(request.form, csrf_enabled=False)
     if request.method == 'POST':
-        openid = request.form.get('openid', None)
-        if openid:
-            return oid.try_login(COMMON_PROVIDERS.get(openid, "fackeone"),
-                                 ask_for=['email', 'nickname'])
-        if form.validate():
-            user = User.query.filter_by(email=form.email.data).first()
-            if user:
-                user.last_login_time = datetime.now()
-                session['user'] = str(user.id)
-                return redirect(request.args.get('next', '/'))
-    g.form = form
-    return render_template('userapp/login.html',
+        return oid.try_login(COMMON_PROVIDERS['google'], ask_for=['email', 'nickname'])
+    return render_template('user/login.html',
                            next=oid.get_next_url(),
                            error=oid.fetch_error())
 
@@ -60,7 +47,7 @@ def create_profile():
         session.pop('openid')
         return redirect(url_for('userapp.login'))
     g.form = form
-    return render_template('userapp/create_profile.html', next_url=oid.get_next_url())
+    return render_template('user/create_profile.html', next_url=oid.get_next_url())
 
 @userapp.route('/logout', methods=['GET'])
 def logout():

@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from dessert.utils import login_required
 
 postapp = Blueprint('postapp', __name__)
 
