@@ -137,9 +137,7 @@ class PostComment(db.Model):
     __tablename__ = 'post_comments'
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(45), nullable=False) # 登陆使用的
-    nickname = db.Column(db.String(45), nullable=False) # 显示时用的
-    url = db.Column(db.String(45), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created_time = db.Column(db.DateTime, nullable=False)

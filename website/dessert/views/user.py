@@ -67,3 +67,8 @@ def logout():
     if 'user' in session:
         session.pop('user')
     return redirect('/')
+
+@userapp.route('/id/<user_id>')
+@userapp.route('/<slug>')
+def view(slug=None, user_id=None):
+    pass
