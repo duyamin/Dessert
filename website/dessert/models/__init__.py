@@ -85,9 +85,10 @@ class User(db.Model):
     openid = db.Column(db.Text, nullable=True)
     email = db.Column(db.String(45), unique=True, nullable=False)
     nickname = db.Column(db.String(45), unique=True, nullable=False)
-    password = db.Column(db.String(45), nullable=True)
     created_time = db.Column(db.DateTime, nullable=False)
     modified_time = db.Column(db.DateTime, nullable=False)
+
+    blog = db.relationship('Blog', uselist=False)
 
     def __init__(self, nickname, email):
         self.nickname = nickname
@@ -97,8 +98,11 @@ class User(db.Model):
     def __repr__(self):
         return "<User (%s|%s)>" % (self.nickname, self.email)
 
-    def set_password(self, password):
-        self.password = hashPassword(password)
+class Blog(db.Model):
+    __tablename__ = 'blogs'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    title = db.Column(db.String(45))
 
 class Post(db.Model):
     """

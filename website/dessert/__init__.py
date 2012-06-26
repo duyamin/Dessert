@@ -64,11 +64,7 @@ def dispatch_apps(app):
     app.register_blueprint(adminapp, url_prefix='/admin')
     app.register_blueprint(siteapp)
 
-    """
-    from dessert.utils.filters import dateformat, avatar, empty, time_passed, markdown
+    from dessert.utils import dateformat, time_passed, markdown
     app.jinja_env.filters['dateformat'] = dateformat
-    app.jinja_env.filters['avatar'] = avatar
-    app.jinja_env.filters['empty'] = empty
     app.jinja_env.filters['time_passed'] = time_passed
     app.jinja_env.filters['markdown'] = markdown
-    """

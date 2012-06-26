@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}{% endblock %}
 {% block content %}
+{% for post in g.pagination.items %}
+<div><a href="{{ url_for('postapp.view', post_id=post.id) }}">{{ post.title }}</a></div>
+{% endfor %}
+{% endblock %}
+{% block sidebar %}
+<a href="{{ url_for('postapp.create') }}">发表新文章</a>
 {% endblock %}

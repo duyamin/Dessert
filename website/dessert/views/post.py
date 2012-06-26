@@ -1,5 +1,8 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, g, redirect
+from dessert.extensions import db
 from dessert.utils import login_required
+from dessert.models import *
+from dessert.forms import *
 
 postapp = Blueprint('postapp', __name__)
 
@@ -16,9 +19,21 @@ def view(slug=None, post_id=None):
         abort(404)
 
     g.post = post
-    return render_template('postapp/view.html')
+    return render_template('post/view.html')
 
-@postapp.route('/create')
+@postapp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
-    pass
+    form = PostForm(request.form, csrf_enabled=False)
+    if request.method == 'POST' and form.validate():
+        post = Post(g.user.id, form.title.data, form.content.data)
+        if form.slug.data:
+            post.slug = form.slug.data
+        db.session.add(post)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        return redirect(url_for('postapp.view', id=post.id))
+    g.form = form
+    return render_template('post/create.html')

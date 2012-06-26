@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}{% endblock %}
 {% block content %}
+<form action="" method="POST">
+	<p>{{ g.form.title.label }}{{ g.form.title }}</p>
+	<p>{{ g.form.slug.label }}{{ g.form.slug }}</p>
+	<p>{{ g.form.content }}</p>
+	<p><input type="submit" value="发表文章" /></p>
+</form>
 {% endblock %}

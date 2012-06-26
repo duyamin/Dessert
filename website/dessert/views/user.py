@@ -1,7 +1,9 @@
-#-*-coding:utf-*-
-from flask import Blueprint, g, redirect, request, render_template
+#-*-coding:utf-8-*-
+from flask import Blueprint, g, redirect, request, render_template, session, url_for, flash
 from flaskext.openid import COMMON_PROVIDERS
 from dessert.extensions import *
+from dessert.models import *
+from dessert.forms import *
 
 userapp = Blueprint('userapp', __name__)
 
@@ -31,17 +33,16 @@ def create_or_login(resp):
 
 @userapp.route('/create_profile', methods=['GET', 'POST'])
 def create_profile():
-    form = ProfileForm(request.form)
+    form = ProfileForm(request.form, csrf_enabled=False)
     form.nickname.data = request.values.get('nickname')
     form.email.data = request.values.get('email')
     if request.method == 'POST' and form.validate():
         user = User(form.nickname.data,
                     form.email.data)
         user.openid = session['openid']
-        info = UserInfo(user.id)
-        user.info = info
+        blog = Blog(user.id)
+        blog.title = form.title.data
         db.session.add(user)
-        db.session.add(info)
         db.session.commit()
         flash(u'资料建立成功')
         session.pop('openid')
@@ -58,4 +59,10 @@ def logout():
 @userapp.route('/id/<user_id>')
 @userapp.route('/<slug>')
 def view(slug=None, user_id=None):
-    pass
+    user = getUserObject(slug=slug, user_id=user_id)
+    if not user:
+        abort(404)
+
+    g.user = user
+    g.pagination = Post.query.filter_by(user_id=user.id).order_by('created_time DESC').paginate(1, 20)
+    return render_template('user/view.html')

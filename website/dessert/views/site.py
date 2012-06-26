@@ -17,3 +17,7 @@ def index():
 @siteapp.route('/rss/<user_id>.xml')
 def rss(user_id):
     pass
+
+@siteapp.route('/page/<slug>')
+def page(slug):
+    pass
