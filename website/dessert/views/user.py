@@ -25,7 +25,7 @@ def create_or_login(resp):
         session['user'] = str(user.id)
         session.pop('openid')
         g.user = getUserObject(user_id=session['user'])
-        return redirect(oid.get_next_url())
+        return redirect(url_for('userapp.view', user_id=g.user.id))
     return redirect(url_for('userapp.create_profile',
                             next=oid.get_next_url(),
                             nickname=resp.nickname,
@@ -40,9 +40,12 @@ def create_profile():
         user = User(form.nickname.data,
                     form.email.data)
         user.openid = session['openid']
+
+        db.session.add(user)
+        db.session.commit()
         blog = Blog(user.id)
         blog.title = form.title.data
-        db.session.add(user)
+        db.session.add(blog)
         db.session.commit()
         flash(u'资料建立成功')
         session.pop('openid')

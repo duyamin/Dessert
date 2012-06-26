@@ -9,6 +9,7 @@
 	<p class="pl20 pr20">您看到这个页面, 是因为你第一次使用OpenID登录本网站, 建立个人资料后, 将可以使用网站所有功能</p>
 	<form class="form mt50" action="" method="POST">
 		<p class="clearfix"><label class="span1 lh30 mr10">昵称</label>{{ g.form.nickname(class="span6") }}</p>
+		<p class="clearfix"><label class="span1 lh30 mr10">博客标题</label>{{ g.form.title(class="span6") }}</p>
 		<p class="clearfix"><label class="span1 lh30 mr10">邮件地址</label>{{ g.form.email(class="span6") }}</p>
 		<p class="clearfix"><label class="span1 lh30 mr10"></label><input type="checkbox" name="agreement" /> 我同意 <a href="{{ url_for('siteapp.page', slug='agreement') }}" target="_blank">代码段条款</a></p>
 		<p class="actions mt40"></p>

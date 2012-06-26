@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, g, redirect
+from flask import Blueprint, render_template, request, g, redirect, url_for
 from dessert.extensions import db
 from dessert.utils import login_required
 from dessert.models import *
@@ -34,6 +34,6 @@ def create():
             db.session.commit()
         except:
             db.session.rollback()
-        return redirect(url_for('postapp.view', id=post.id))
+        return redirect(url_for('postapp.view', post_id=post.id))
     g.form = form
     return render_template('post/create.html')

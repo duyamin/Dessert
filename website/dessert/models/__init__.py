@@ -6,7 +6,7 @@ from datetime import datetime
 from flask import url_for, request, session
 from dessert.extensions import db
 
-__all__ = ['User', 'Post', 'Tag', 'PostComment', 'getUserObject']
+__all__ = ['User', 'Blog', 'Post', 'Tag', 'PostComment', 'getUserObject']
 
 def getUserObject(slug=None, user_id=None):
     user = None
@@ -101,8 +101,11 @@ class User(db.Model):
 class Blog(db.Model):
     __tablename__ = 'blogs'
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True, nullable=False)
     title = db.Column(db.String(45))
+
+    def __init__(self, user_id):
+        self.user_id = user_id
 
 class Post(db.Model):
     """
