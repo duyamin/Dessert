@@ -12,6 +12,9 @@ a {
 	width: 960px;
 	margin: 0 auto;
 }
+#header {
+	height: 30px;
+}
 #content {
 	width: 660px;
 }

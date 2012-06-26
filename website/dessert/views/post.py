@@ -6,7 +6,7 @@ from dessert.forms import *
 
 postapp = Blueprint('postapp', __name__)
 
-@postapp.route('/id/<post_id>')
+@postapp.route('/<int:post_id>')
 @postapp.route('/<slug>')
 def view(slug=None, post_id=None):
     post = None
@@ -35,5 +35,22 @@ def create():
         except:
             db.session.rollback()
         return redirect(url_for('postapp.view', post_id=post.id))
+    g.form = form
+    return render_template('post/create.html')
+
+@postapp.route('/edit/<post_id>', methods=['GET', 'POST'])
+@login_required
+def edit(post_id):
+    post = Post.query.get_or_404(post_id)
+    form = PostForm(request.form, csrf_enabled=False)
+    if request.method == 'POST' and form.validate():
+        post.slug = form.slug.data
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.add(post)
+        return redirect(url_for('postapp.view', post_id=post.id))
+    form.title.data = post.title
+    form.content.data = post.content
+    form.slug.data = post.slug
     g.form = form
     return render_template('post/create.html')

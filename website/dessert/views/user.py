@@ -59,7 +59,7 @@ def logout():
         session.pop('user')
     return redirect('/')
 
-@userapp.route('/id/<user_id>')
+@userapp.route('/<int:user_id>')
 @userapp.route('/<slug>')
 def view(slug=None, user_id=None):
     user = getUserObject(slug=slug, user_id=user_id)
