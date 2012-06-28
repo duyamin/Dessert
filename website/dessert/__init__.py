@@ -58,9 +58,8 @@ def dispatch_handlers(app):
         return render_template('error.html', **d), 500
 
 def dispatch_apps(app):
-    from dessert.views import siteapp, postapp, userapp, adminapp
+    from dessert.views import siteapp, postapp, adminapp
     app.register_blueprint(postapp, url_prefix='/post')
-    app.register_blueprint(userapp,  url_prefix='/user')
     app.register_blueprint(adminapp, url_prefix='/admin')
     app.register_blueprint(siteapp)
 

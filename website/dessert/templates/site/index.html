@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+<ul>
 {% for post in g.pagination.items %}
 <li>
-	<h2>{{ post.title }}</h2>
+	<a href="{{ url_for('postapp.view', post_id=post.id) }}">{{ post.title }}</a>
 </li>
 {% endfor %}
+</ul>
 {% endblock %}
